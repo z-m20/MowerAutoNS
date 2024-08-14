@@ -1,15 +1,17 @@
 package org.projects;
 
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @ToString
 public class Mower {
 
@@ -18,6 +20,31 @@ public class Mower {
     Area area;
     int posX, posY;  // Mower position
     char direction;
+
+    public Mower(Area area, int posX, int posY, char direction) throws IOException {
+        if (posX < 0 || posX >= area.getWidth() || posY < 0 || posY >= area.getLength()) {
+            logger.error("Initial position is ({},{},{}) is outside area", posX, posY, direction);
+            throw new IllegalArgumentException("Initial position is outside the area ");
+        }
+        this.area = area;
+        this.posX = posX;
+        this.posY = posY;
+        this.direction = direction;
+    }
+
+    public void setPosX(int posX) {
+        if (posX < 0 || posX >= area.getWidth()) {
+            throw new IllegalArgumentException("Can't put mower outside area");
+        }
+        this.posX = posX;
+    }
+
+    public void setPosY(int posY) {
+        if (posY < 0 || posY >= area.getWidth()) {
+            throw new IllegalArgumentException("Can't put mower outside area");
+        }
+        this.posY = posY;
+    }
 
     public void move(String instructions) {
         logger.debug("Start position is x={}, y={}, direction={}", posX, posY, direction);
@@ -51,7 +78,7 @@ public class Mower {
                         nextX--;
                         break;
                     default:
-                        System.out.println("Invalid Direction");
+                        logger.warn("Invalid Direction");
                 }
 
                 if (nextX >= 0 && nextX < this.area.getWidth() && nextY >= 0 && nextY < this.area.getLength()) {
@@ -99,7 +126,7 @@ public class Mower {
                 }
                 break;
             default:
-                System.out.println("invalid Instruction");
+                logger.warn("invalid Instruction");
 
         }
 

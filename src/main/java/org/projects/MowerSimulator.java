@@ -46,20 +46,20 @@ public class MowerSimulator {
             String[] firstLine = br.readLine().split(" ");
 
             if (firstLine.length != 2) {
-                throw new IOException("File " + this.fileName + " has invalid area dimensions.");
+                throw new IllegalArgumentException("File " + this.fileName + " has invalid area dimensions.");
             }
 
             try {
                 area.setWidth(Integer.parseInt(firstLine[0]) + 1);
                 area.setLength(Integer.parseInt(firstLine[1]) + 1);
             } catch (NumberFormatException e) {
-                throw new IOException("File " + this.fileName + " contains invalid area dimensions.");
+                throw new IllegalArgumentException("File " + this.fileName + " contains invalid area dimensions.");
             }
 
             while ((line = br.readLine()) != null) {
                 String[] position = line.split(" ");
                 if (position.length != 3) {
-                    throw new IOException("File " + this.fileName + " has invalid mower position.");
+                    throw new IllegalArgumentException("File " + this.fileName + " has invalid mower position.");
                 }
 
                 int posX, posY;
@@ -68,17 +68,17 @@ public class MowerSimulator {
                     posX = Integer.parseInt(position[0]);
                     posY = Integer.parseInt(position[1]);
                 } catch (NumberFormatException e) {
-                    throw new IOException("File " + this.fileName + " contains invalid mower position.");
+                    throw new IllegalArgumentException("File " + this.fileName + " contains invalid mower position.");
                 }
 
                 String direction = position[2];
                 if (direction.length() != 1) {
-                    throw new IOException("File " + this.fileName + " has invalid mower direction.");
+                    throw new IllegalArgumentException("File " + this.fileName + " has invalid mower direction.");
                 }
 
                 String instructions = br.readLine();
                 if (instructions == null) {
-                    throw new IOException("File " + this.fileName + " missing instructions for mower.");
+                    throw new IllegalArgumentException("File " + this.fileName + " missing instructions for mower.");
                 }
 
                 Mower mower = new Mower(area, posX, posY, direction.charAt(0));
