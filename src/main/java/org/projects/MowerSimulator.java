@@ -85,8 +85,12 @@ public class MowerSimulator {
                 mower.move(instructions);
                 mowers.add(mower);
             }
+            if (mowers.isEmpty()) {
+                throw new IllegalArgumentException("File " + this.fileName + " doesn't contain any mower dimensions.");
+            }
             return mowers;
         } catch (IOException e) {
+            e.printStackTrace();
             e.printStackTrace();
         }
         return mowers;
